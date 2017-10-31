@@ -5,7 +5,7 @@ ARG WPSCAN_VERSION=2.9.2
 
 RUN \
   apk add --no-cache curl ca-certificates openssl libxml2 libxslt procps && \
-  apk add --no-cache --virtual .dev git curl-dev libxml2-dev libxslt-dev alpine-sdk && \
+  apk add --no-cache --virtual .builddeps git curl-dev libxml2-dev libxslt-dev alpine-sdk && \
   wget https://github.com/wpscanteam/wpscan/archive/${WPSCAN_VERSION}.tar.gz && \
   adduser -h /wpscan -D wpscan && \
   echo "install: --no-document" >> /etc/gemrc && \
@@ -22,7 +22,7 @@ RUN \
   /wpscan/wpscan.rb --update --verbose --no-color
 
 USER root
-RUN apk del --purge .build-tools
+RUN apk del --purge .builddeps
 
 USER wpscan
 ENTRYPOINT ["/wpscan/wpscan.rb"]
