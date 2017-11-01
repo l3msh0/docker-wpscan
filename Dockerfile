@@ -18,12 +18,12 @@ USER wpscan
 WORKDIR /wpscan
 
 RUN \
-  bundle install --without test --path vendor/bundle && \
-  /wpscan/wpscan.rb --update --verbose --no-color
+  bundle install --without test --path vendor/bundle
 
 USER root
 RUN apk del --purge .builddeps
 
 USER wpscan
+VOLUME /wpscan/data
 ENTRYPOINT ["./wpscan.rb"]
 CMD ["--help"]
