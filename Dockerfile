@@ -12,18 +12,12 @@ RUN \
   echo "install: --no-document" >> /etc/gemrc && \
   echo "update: --no-document" >> /etc/gemrc && \
   sudo -u wpscan tar --strip-components=1 -zxf /tmp/wpscan.tar.gz -C /wpscan && \
-  rm /tmp/wpscan.tar.gz
+  su -c 'cd /wpscan; bundle install --without test --path vendor/bundle' wpscan && \
+  rm /tmp/wpscan.tar.gz && \
+  apk del --purge .builddeps
 
 USER wpscan
 WORKDIR /wpscan
-
-RUN \
-  bundle install --without test --path vendor/bundle
-
-USER root
-RUN apk del --purge .builddeps
-
-USER wpscan
 VOLUME /wpscan/data
 ENTRYPOINT ["./wpscan.rb"]
 CMD ["--help"]
