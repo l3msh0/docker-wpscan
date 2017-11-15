@@ -1,7 +1,7 @@
-FROM ruby:2.3-alpine
+FROM ruby:2.4-alpine
 LABEL maintainer "L3msh0@gmail.com"
 
-ARG WPSCAN_VERSION=2.9.2
+ARG WPSCAN_VERSION=2.9.3
 
 RUN \
   apk add --upgrade --no-cache curl ca-certificates openssl libxml2 libxslt procps && \
